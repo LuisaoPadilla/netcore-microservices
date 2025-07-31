@@ -1,0 +1,6 @@
+@LibreriaEcommerce.Api.Autor_HostAddress = http://localhost:5170
+
+GET {{LibreriaEcommerce.Api.Autor_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
