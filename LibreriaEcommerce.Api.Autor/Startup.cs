@@ -1,4 +1,11 @@
-﻿namespace LibreriaEcommerce.Api.Autor
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using LibreriaEcommerce.Api.Autor.Application;
+using LibreriaEcommerce.Api.Autor.Data.Context;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace LibreriaEcommerce.Api.Autor
 {
     public static class Startup
     {
@@ -15,6 +22,17 @@
         {
             // Add services to the container.
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<AppDbContext>(op => op.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLconnection")));
+
+            builder.Services.AddMediatR(typeof(Nuevo.Manejador).Assembly);
+
+            builder.Services.AddAutoMapper(typeof(Startup));
+
+            //FluentValidation
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddFluentValidationClientsideAdapters();
+            builder.Services.AddValidatorsFromAssemblyContaining<Nuevo.Ejecuta>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
