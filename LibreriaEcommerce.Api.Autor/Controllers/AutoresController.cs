@@ -1,4 +1,5 @@
 ﻿using LibreriaEcommerce.Api.Autor.Application;
+using LibreriaEcommerce.Api.Autor.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,19 @@ namespace LibreriaEcommerce.Api.Autor.Controllers
         public AutoresController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [HttpGet]
+        [HttpGet("Lista")]
+        public async Task<ActionResult<List<AutorDTO>>> GetAutors()
+        {
+            return await mediator.Send(new Consulta.Ejecuta());
+        }
+
+        [HttpGet("UnicoAutor/{id:int}")]
+        public async Task<ActionResult<AutorDTO>> GetAutorById([FromRoute] int id)
+        {
+            return await mediator.Send(new ConsultaFiltro.AutorUnico() { AutorId = id});
         }
 
         [HttpPost]
